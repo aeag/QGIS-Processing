@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 ##Table=group
 ##layer_input=vector
 ##outputfile=output html
@@ -50,6 +51,7 @@ table th {
 layer = processing.getObject(layer_input)
 
 fields = layer.pendingFields()
+
 field_names = [field.name() for field in fields]
 fieldsDesc = [u'Fields:'] 
 
