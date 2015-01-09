@@ -81,7 +81,7 @@ html_tab_head=''.join(head.to_html().rstrip('\r\n'))
 html_tab_head = html_tab_head + u'<br>      ...  '
 
 
-html_result = html_header + html_fields + u'<p>' + html_tab_summary + u"</p> <p>" +html_tab_head +u"</p>" + u"</body></html>" 
+html_result = html_header + html_fields + u'<p> - <b>First lines of table:</b> <br>' + html_tab_head  + u"</p>  <p> <b>- Numeric statistics: </b> <br>" +html_tab_summary +u"</p>" + u"</body></html>" 
 f = open(outputfile, 'a')
 f.close
 f.write(html_result.encode('utf8'))
