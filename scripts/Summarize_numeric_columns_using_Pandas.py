@@ -46,6 +46,7 @@ table th {
 </style>
 </head>
 <body>
+<h1 id="title">Fast analysis for all table fields using Pandas (v>0.15)</h1>
 """)
     
 layer = processing.getObject(layer_input)
@@ -53,12 +54,12 @@ layer = processing.getObject(layer_input)
 fields = layer.pendingFields()
 
 field_names = [field.name() for field in fields]
-fieldsDesc = [u'Fields:'] 
+fieldsDesc = [u'<b>Fields: </b> <br>'] 
 
 
 # describe table fields
 for field in fields:
-    fileinfo= u"<b>- %s Type:</b> %s, Length: %s " % ( field.name(), field.typeName(), field.length())
+    fileinfo= u"<b>- %s Type:</b> %s,  Length: %s " % ( field.name(), field.typeName(), field.length())
     fieldsDesc.append(fileinfo)
 
 html_fields = (u'<br> '.join(fieldsDesc))
@@ -69,7 +70,7 @@ for elem in layer.getFeatures():
     #  if contains text for all columns auto switches to text stats
 df = pd.DataFrame(data=attr, columns = field_names)
 summary = ['<p> Table stats ']
-summary.append(df.describe().to_html().rstrip('\r\n'))
+summary.append(df.describe(include='all').to_html().rstrip('\r\n'))
 summary.append('</p>')
 
 head = df.head()
@@ -81,7 +82,7 @@ html_tab_head=''.join(head.to_html().rstrip('\r\n'))
 html_tab_head = html_tab_head + u'<br>      ...  '
 
 
-html_result = html_header + html_fields + u'<p> - <b>First lines of table:</b> <br>' + html_tab_head  + u"</p>  <p> <b>- Numeric statistics: </b> <br>" +html_tab_summary +u"</p>" + u"</body></html>" 
+html_result = html_header + '<p><b>Table:</b> <i>' +layer.name() + '</i> </p><br>' +  html_fields + u'<p> - <b>First lines of table:</b> <br>' + html_tab_head  + u"</p>  <p> <b>- Statistics for all fields: </b> <br>" +html_tab_summary +u"</p>" + u"</body></html>" 
 f = open(outputfile, 'a')
 f.close
 f.write(html_result.encode('utf8'))
